@@ -3,6 +3,7 @@ package mains;
 import java.io.File;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RegExUtils;
 
 /**
@@ -16,7 +17,7 @@ public class RemoveDirectorySuffix {
 	 * 対象のディレクトリ.<br>
 	 * このディレクトリ直下のディレクトリに対して処理を実行する.
 	 */
-	private static File TARGET_DIRECTROY = new File("CHANGEME");
+	private static File TARGET_DIRECTROY = new File("CHANGE ME");
 
 	/**
 	 * ディレクトリ名の接尾辞のパターン.
@@ -29,50 +30,47 @@ public class RemoveDirectorySuffix {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		System.out.println("■start.");
 		try {
 			// 対象のディレクトリ直下の全てのファイルに対して実行
 			for (File tempFile1 : TARGET_DIRECTROY.listFiles()) {
 				// ディレクトリの場合
 				if (tempFile1.isDirectory()) {
-					// ディレクトリ名に接尾辞のパターンが含まれている場合
-					if (SUFFIX_PATTERN.matcher(tempFile1.getName()).find()) {
-						System.out.println("■処理対象:" + tempFile1.getName());
+					try {
+						// ディレクトリ名に接尾辞のパターンが含まれている場合
+						if (SUFFIX_PATTERN.matcher(tempFile1.getName()).find()) {
+							System.out.println("■処理対象:" + tempFile1.getName());
 
-						// 接尾辞を除外した新しいディレクトリ名を作成
-						String newDirectoryName = RegExUtils.removeFirst(tempFile1.getName(), SUFFIX_PATTERN);
-						File newDirectoryNameFile = new File(tempFile1.getParentFile(), newDirectoryName);
+							// 接尾辞を除外した新しいディレクトリ名を作成
+							String newDirectoryName = RegExUtils.removeFirst(tempFile1.getName(), SUFFIX_PATTERN);
+							File newDirectoryNameFile = new File(tempFile1.getParentFile(), newDirectoryName);
 
-						// 新しいディレクトリ名にリネーム
-						if (!tempFile1.renameTo(newDirectoryNameFile)) {
-							// リネームに失敗した場合
-							System.err.println("リネーム失敗:" + newDirectoryName);
-
-							// リネーム対象のディレクトリ内の全てのファイルに対して実行
+							// 処理対象のディレクトリ内の全てのファイルに対して実行
 							for (File tempFile2 : tempFile1.listFiles()) {
 								System.out.println("移動:" + tempFile2.getName());
 
-								// 新しいディレクトリ名内へ移動
-								if (!tempFile2.renameTo(new File(newDirectoryNameFile, tempFile2.getName()))) {
-									// リネームに失敗した場合
-									System.err.println("移動失敗:" + tempFile2.getName());
-								}
+								// 新しいディレクトリ内へ移動
+								FileUtils.moveFileToDirectory(tempFile2, newDirectoryNameFile, true);
 							}
+						} else {
+							System.out.println("■処理対象外:" + tempFile1.getName());
 						}
-					} else {
-						System.out.println("■処理対象外:" + tempFile1.getName());
-					}
-
-					// ディレクトリが空の場合
-					if (tempFile1.listFiles().length == 0) {
-						// ディレクトリを削除
-						if (!tempFile1.delete()) {
-							System.err.println("ディレクトリの削除に失敗:" + tempFile1.getName());
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						// ディレクトリが空の場合					
+						if (FileUtils.isEmptyDirectory(tempFile1)) {
+							// ディレクトリを削除
+							System.out.println("■削除:" + tempFile1.getName());
+							FileUtils.deleteDirectory(tempFile1);
 						}
 					}
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			System.out.println("■done.");
 		}
 	}
 }
