@@ -52,7 +52,7 @@ public class Mp3FileGroupingDirectory {
 									// アルバム名が存在する場合
 									if (StringUtils.isNotBlank(album)) {
 										// 子ディレクトリを作成
-										File childDirectory = new File(TARGET_DIRECTROY, album);
+										File childDirectory = new File(TARGET_DIRECTROY, sanitizeDirectoryName(album));
 
 										// ファイルを子ディレクトリへ移動
 										FileUtils.moveFileToDirectory(file, childDirectory, true);
@@ -68,7 +68,8 @@ public class Mp3FileGroupingDirectory {
 										// アルバムのアーティストが存在する場合
 										if (StringUtils.isNotBlank(albumArtist)) {
 											// 子ディレクトリを作成
-											File childDirectory = new File(TARGET_DIRECTROY, albumArtist);
+											File childDirectory = new File(TARGET_DIRECTROY,
+													sanitizeDirectoryName(albumArtist));
 
 											// ファイルを子ディレクトリへ移動
 											FileUtils.moveFileToDirectory(file, childDirectory, true);
@@ -84,7 +85,8 @@ public class Mp3FileGroupingDirectory {
 											// アルバムのアーティストが存在する場合
 											if (StringUtils.isNotBlank(albumArtists)) {
 												// 子ディレクトリを作成
-												File childDirectory = new File(TARGET_DIRECTROY, albumArtists);
+												File childDirectory = new File(TARGET_DIRECTROY,
+														sanitizeDirectoryName(albumArtists));
 
 												// ファイルを子ディレクトリへ移動
 												FileUtils.moveFileToDirectory(file, childDirectory, true);
@@ -108,5 +110,17 @@ public class Mp3FileGroupingDirectory {
 		} finally {
 			System.out.println("■done.");
 		}
+	}
+
+	/**
+	 * ディレクトリ名をサニタイズ.
+	 * @param directoryName
+	 * @return
+	 */
+	private static String sanitizeDirectoryName(String directoryName) {
+		// FIXME
+		directoryName = StringUtils.replaceChars(directoryName, '?', '？');
+		directoryName = StringUtils.replaceChars(directoryName, ':', '：');
+		return directoryName;
 	}
 }
