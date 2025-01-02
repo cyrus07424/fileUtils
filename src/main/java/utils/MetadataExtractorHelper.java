@@ -139,16 +139,15 @@ public class MetadataExtractorHelper {
 				} else if (ifd0Directory.containsTag(ExifIFD0Directory.TAG_DATETIME)) {
 					return ifd0Directory.getDate(ExifIFD0Directory.TAG_DATETIME, timeZone);
 				}
-			} else {
-				ExifSubIFDDirectory subIfdDirectory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
-				if (subIfdDirectory != null) {
-					if (subIfdDirectory.containsTag(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL)) {
-						return subIfdDirectory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL, timeZone);
-					} else if (subIfdDirectory.containsTag(ExifSubIFDDirectory.TAG_DATETIME_DIGITIZED)) {
-						return subIfdDirectory.getDate(ExifSubIFDDirectory.TAG_DATETIME_DIGITIZED, timeZone);
-					} else if (subIfdDirectory.containsTag(ExifSubIFDDirectory.TAG_DATETIME)) {
-						return subIfdDirectory.getDate(ExifSubIFDDirectory.TAG_DATETIME, timeZone);
-					}
+			}
+			ExifSubIFDDirectory subIfdDirectory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
+			if (subIfdDirectory != null) {
+				if (subIfdDirectory.containsTag(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL)) {
+					return subIfdDirectory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL, timeZone);
+				} else if (subIfdDirectory.containsTag(ExifSubIFDDirectory.TAG_DATETIME_DIGITIZED)) {
+					return subIfdDirectory.getDate(ExifSubIFDDirectory.TAG_DATETIME_DIGITIZED, timeZone);
+				} else if (subIfdDirectory.containsTag(ExifSubIFDDirectory.TAG_DATETIME)) {
+					return subIfdDirectory.getDate(ExifSubIFDDirectory.TAG_DATETIME, timeZone);
 				}
 			}
 		}
