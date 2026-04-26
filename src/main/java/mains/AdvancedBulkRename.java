@@ -43,7 +43,7 @@ public class AdvancedBulkRename {
 	 * 対象のディレクトリ.<br>
 	 * このディレクトリ直下のディレクトリに対して処理を実行する.
 	 */
-	private static File TARGET_DIRECTROY = new File("CHANGE ME");
+	private static File TARGET_DIRECTORY = new File("CHANGE ME");
 
 	/**
 	 * 日付のフォーマット.
@@ -59,7 +59,7 @@ public class AdvancedBulkRename {
 		System.out.println("■start.");
 		try {
 			// 対象のディレクトリに対して処理を実行
-			mainDirectory(TARGET_DIRECTROY);
+			mainDirectory(TARGET_DIRECTORY);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

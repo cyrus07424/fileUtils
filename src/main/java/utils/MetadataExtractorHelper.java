@@ -5,7 +5,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.*;
 
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
@@ -36,13 +36,13 @@ public class MetadataExtractorHelper {
 		try {
 			return ImageMetadataReader.readMetadata(file);
 		} catch (ImageProcessingException e) {
-			if (StringUtils.equals(e.getMessage(), "File format could not be determined")) {
+			if (Strings.CS.equals(e.getMessage(), "File format could not be determined")) {
 				// NOP
 			} else {
 				e.printStackTrace();
 			}
 		} catch (EOFException e) {
-			if (StringUtils.equals(e.getMessage(), "End of data reached.")) {
+			if (Strings.CS.equals(e.getMessage(), "End of data reached.")) {
 				// NOP
 			} else {
 				e.printStackTrace();

@@ -55,7 +55,7 @@ public class Mp3FileGroupingDirectory {
 	/**
 	 * デバッグモード(ディレクトリ移動を行わない).
 	 */
-	private static final boolean DEBUG_MODE = true;
+	private static final boolean DEBUG_MODE = false;
 
 	/**
 	 * FIXME 使用する文字セット.
@@ -85,7 +85,8 @@ public class Mp3FileGroupingDirectory {
 	 */
 	private static void processDirectory(File targetDirectory) {
 		try {
-			Collection<File> fileList = FileUtils.listFiles(targetDirectory, new String[] { "mp3" }, false);
+			Collection<File> fileList = FileUtils.listFiles(targetDirectory, new String[] { "mp3", "flac", "m4a" },
+					false);
 			for (File file : fileList) {
 				try {
 					// オーディオファイルとして読み込み
@@ -193,6 +194,11 @@ public class Mp3FileGroupingDirectory {
 		// FIXME
 		directoryName = StringUtils.replaceChars(directoryName, '?', '？');
 		directoryName = StringUtils.replaceChars(directoryName, ':', '：');
+		directoryName = StringUtils.replaceChars(directoryName, '*', '＊');
+		directoryName = StringUtils.replaceChars(directoryName, '<', '＜');
+		directoryName = StringUtils.replaceChars(directoryName, '>', '＞');
+		directoryName = StringUtils.replaceChars(directoryName, '/', '／');
+		directoryName = StringUtils.replaceChars(directoryName, '"', '”');
 		return directoryName;
 	}
 }

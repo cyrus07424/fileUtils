@@ -18,7 +18,7 @@ public class RemoveTextDuplicateLine {
 	 * 対象のディレクトリ.<br>
 	 * このディレクトリ直下のディレクトリに対して処理を実行する.
 	 */
-	private static File TARGET_DIRECTROY = new File("CHANGE ME");
+	private static File TARGET_DIRECTORY = new File("CHANGE ME");
 
 	/**
 	 * main.
@@ -29,7 +29,7 @@ public class RemoveTextDuplicateLine {
 		System.out.println("■start.");
 		try {
 			// 対象のディレクトリ直下の全てのファイルに対して実行
-			for (File tempFile1 : TARGET_DIRECTROY.listFiles()) {
+			for (File tempFile1 : TARGET_DIRECTORY.listFiles()) {
 				// ファイルの場合
 				if (tempFile1.isFile()) {
 					try {
